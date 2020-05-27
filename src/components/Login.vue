@@ -23,7 +23,8 @@ export default {
   data: function() {
     return {
       username: '',
-      password: ''
+      password: '',
+      isLogged: false
     }
   }, 
   methods: {
@@ -49,10 +50,13 @@ export default {
         }
         let context = this;
         axios.post("https://desolate-spire-14577.herokuapp.com/api/users/login", formData)
-          .then((response) =>{
+          .then((response) => {
             if(response.status == 200) {
                 localStorage.setItem("username", context.username);
-                axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;            
+                console.log(response);
+                localStorage.setItem("token", response.data.data.token);
+                context.isLogged = true;
+                context.$emit("login", context.isLogged);
             }
           });
     }

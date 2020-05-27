@@ -34,7 +34,7 @@
       </div>
     </div>
     <h1 id="total">Total: USD {{ this.totalPrice }}</h1>
-    <button id="buy-stocks">Comprar ativos</button>
+    <button @click="this.buyStocks" :disabled="this.value <= 0">Comprar ativos</button>
   </div>
 </template>
 
@@ -76,7 +76,7 @@ export default {
       let promises = [];
       for (let i = 0; i < this.stocks.length; i++) {
         promises.push(
-          axios.get("")
+          axios.get("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + this.stocks[i].symbol + "&apikey=RVQEMEEB6QV44GQS")
             .then(response => {
               // The API allows to make 5 requests a minute, this avoids error on console for
               // trying to read undefined value
@@ -113,8 +113,30 @@ export default {
           }
           context.totalPrice = parseFloat(context.totalPrice).toFixed(2);
         });
+    },
+    buyStocks() {
+      let stocks = []
+      for(let i = 0; i < this.stocks.length; i++) {
+        stocks.push({
+          "code"   : this.stocks[i].symbol,
+          "amount" : this.stocks[i].amount
+        })
+      }
+
+      let postData = {
+        "stocks"   : stocks,
+        "username" : localStorage.getItem("username")
+      }
+
+      axios.post("https://desolate-spire-14577.herokuapp.com/api/stocks/add", postData)
+        .then(() => {
+          alert("Ativos comprados com sucesso! Clique ok para consolidar sua carteira!")
+        });
     }
   },
+  created: function() {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
+  }
 };
 </script>
 

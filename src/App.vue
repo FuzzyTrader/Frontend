@@ -2,19 +2,39 @@
   <div id="app">
     <h1 class="main-title">Fuzzy Trader</h1>
     <div class="main-container">
-      <Stocks />
+      <Stocks v-if="this.isLogged" />
+      <Login v-else :parentData="this.isLogged" v-on:login="checkLogin"/>
     </div>
   </div>
 </template>
 
 <script>
 import Stocks from "./components/Stocks.vue";
+import Login from "./components/Login.vue";
 
 export default {
   name: "App",
   components: {
     Stocks,
+    Login
   },
+  data: function() {
+    return {
+      isLogged: null
+    }
+  },
+  methods: {
+    checkLogin() {
+      if (localStorage.getItem("username") != null) {
+        this.isLogged = true;
+      } else {
+        this.isLogged = false;
+      }
+    }
+  },
+  created: function(){
+    this.checkLogin();
+  } 
 };
 </script>
 
