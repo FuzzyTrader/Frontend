@@ -48,7 +48,7 @@ template {
 .main-container {
   width: 80%;
   height: 100%;
-  background-color: #5CDB95;
+  background-image: linear-gradient(to bottom right, #5CDB95, #379683);
   border-radius: 16px;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
   padding: 32px;
