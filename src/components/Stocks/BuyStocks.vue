@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1 class="welcome">Olá, usuário!</h1>
     <h2>Quanto você quer investir?</h2>
     <div class="investment">
       <h2>USD</h2>
@@ -42,7 +41,7 @@
 import axios from 'axios';
 
 export default {
-  name: "Stocks",
+  name: "BuyStocks",
   data: function() {
     return {
       value: 0,
@@ -67,7 +66,7 @@ export default {
         amount    : 0,
         totalPrice: 0
       }],
-      totalPrice : 0
+      totalPrice : 0,
     }
   },
   methods: {
@@ -127,20 +126,18 @@ export default {
         "stocks"   : stocks,
         "username" : localStorage.getItem("username")
       }
-
+      let context = this;
       axios.post("https://desolate-spire-14577.herokuapp.com/api/stocks/add", postData)
         .then(() => {
-          alert("Ativos comprados com sucesso! Clique ok para consolidar sua carteira!")
+          alert("Ativos comprados com sucesso!");
+          context.$emit("displayWallet", context.buyStocksView);
         });
     }
   },
-  created: function() {
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
-  }
 };
 </script>
 
-<style scoped>
+<style>
 h1,
 h2,
 h3 {

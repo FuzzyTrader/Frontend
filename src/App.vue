@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Stocks from "./components/Stocks.vue";
+import Stocks from "./components/Stocks/Stocks.vue";
 import Login from "./components/Login.vue";
 
 export default {
@@ -72,6 +72,7 @@ template {
   border-radius: 16px;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
   padding: 32px;
+  padding-top: 8px;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
